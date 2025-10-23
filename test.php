@@ -9,7 +9,7 @@ $response = [
     "status" => "success",
     "message" => "Hello from the CivicLink PHP Backend!"
 ];
-  
+
 // Encode the array into a JSON string and echo it
 echo json_encode($response);
 ?>
