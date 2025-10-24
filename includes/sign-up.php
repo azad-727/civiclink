@@ -211,7 +211,7 @@ session_start();
                 <div class="input-group">
                     <input type="email" name="email" placeholder="Email" required>
                 </div>
-                <div class="input-group">
+                <div class="input-group" pattern="/a/">
                     <input type="password" name="password" placeholder="Password" required>
                 </div>
                 <div class="input-group">
@@ -230,4 +230,7 @@ session_start();
     </main>
 
 </body>
+<script>
+    const pass_regex=
+</script>
 </html>
