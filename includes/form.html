@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom CSS Navbar</title>
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* Basic body reset */
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        /* Navbar container */
+        .navbar {
+            background-color: white;
+            padding: 10px 20px;
+            border-bottom: 1px solid #e7e7e7;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-container {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Logo and Brand Name */
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .brand-text {
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+
+        .tagline {
+            font-size: 0.7rem;
+            color: #6c757d;
+            display: block;
+            line-height: 1;
+        }
+
+        /* Navigation Links */
+        .navbar-nav {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 25px; /* Space between links */
+        }
+
+        .nav-item a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1rem;
+            padding-bottom: 5px;
+        }
+        
+        .nav-item a.active {
+            font-weight: 500;
+            border-bottom: 2px solid #0d6efd; /* Blue underline */
+        }
+
+        /* Right Side Icons */
+        .navbar-right-icons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .navbar-right-icons a {
+            color: #333;
+            font-size: 1.2rem;
+            text-decoration: none;
+        }
+
+        .profile-icon-circle {
+            background-color: #0d6efd;
+            color: white;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Hamburger Menu for Mobile */
+        .menu-toggle {
+            display: none; /* Hidden by default on large screens */
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .navbar-nav {
+                display: none; /* Hide nav links */
+                flex-direction: column;
+                position: absolute;
+                top: 65px; /* Position below navbar */
+                left: 0;
+                width: 100%;
+                background-color: white;
+                border-bottom: 1px solid #e7e7e7;
+                padding: 10px 0;
+            }
+            
+            .navbar-nav.active {
+                display: flex; /* Show when active */
+            }
+
+            .nav-item {
+                text-align: center;
+                padding: 10px 0;
+            }
+
+            .navbar-right-icons {
+                display: none; /* Hide icons */
+            }
+
+            .menu-toggle {
+                display: block; /* Show hamburger icon */
+            }
+            
+            .navbar-container {
+                justify-content: space-between;
+            }
+            
+            /* Center the logo when menu is open or on mobile */
+            .navbar-nav {
+                margin-left: 0;
+                font-family: Helvetica-NEUE;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <!-- Logo and Brand Name -->
+            <a class="navbar-brand" href="#">
+                <!-- Placeholder for Logo Image -->
+                <img src="../images/logo_wbg.png" width="50px" height="50px"  alt="CivicLink Logo">
+                <div>
+                    <span class="brand-text">CivicLink</span>
+                    <span class="tagline">Connecting Communities, Solving Issues</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <ul class="navbar-nav" id="navbarNav">
+                <li class="nav-item">
+                    <a href="#" class="active">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Discover</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Submit Issue</a>
+                </li>
+            </ul>
+
+            <!-- Right Side Icons -->
+            <div class="navbar-right-icons">
+                <a href="#"><i class="fas fa-search"></i></a>
+                <a href="#"><i class="far fa-user"></i></a>
+                <a href="#" class="profile-icon-circle">
+                    <i class="fas fa-user"></i>
+                </a>
+            </div>
+            
+            <!-- Hamburger Menu Button -->
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <script>
+        // JavaScript to toggle the mobile menu
+        const menuToggle = document.getElementById('menuToggle');
+        const navbarNav = document.getElementById('navbarNav');
+
+        menuToggle.addEventListener('click', () => {
+            navbarNav.classList.toggle('active');
+        });
+    </script>
+
+</body>
+</html>
