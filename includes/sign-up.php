@@ -1,5 +1,6 @@
 <?php
 // PHP session start or other server-side logic can go here.
+
 session_start();
 ?>
 <!DOCTYPE html>
@@ -199,6 +200,8 @@ session_start();
             </div>
             <h1 class>Connecting Communities.<br>Building Better Cities.</h1>
         </section>
+        
+        
 
         <!-- Form Section -->
         <section class="form-section">

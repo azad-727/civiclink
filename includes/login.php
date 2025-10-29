@@ -1,13 +1,13 @@
 <?php
-// Future server-side logic can be placed here.
+// Always start the session at the very beginning of the file
 session_start();
 
- if(isset($_GET['status']) && $_GET['status'] == 'success'): ?>
-    <div class="alert alert-success">Registration successful! Please log in.</div>
-<?php endif; ?>
-<?php if(isset($_GET['error'])): ?>
-    <div class="alert alert-danger"><?php echo htmlspecialchars($_GET['error']); ?></div>
-<?php endif; ?>
+// If the user is already logged in, redirect them away from the login page
+if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+    header("location: explore.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,6 +28,10 @@ session_start();
             --border-color: #e0e4e8;
             --text-color-light: #6c757d;
             --text-color-dark: #333;
+            --alert-danger-bg: #f8d7da;
+            --alert-danger-text: #721c24;
+            --alert-success-bg: #d4edda;
+            --alert-success-text: #155724;
         }
 
         * {
@@ -121,6 +125,26 @@ session_start();
             width: 100%;
             max-width: 350px;
             margin: 0 auto;
+        }
+
+        /* --- Alert Box Styles --- */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            width: 100%;
+            text-align: center;
+        }
+        .alert-danger {
+            color: var(--alert-danger-text);
+            background-color: var(--alert-danger-bg);
+            border-color: var(--alert-danger-text);
+        }
+        .alert-success {
+            color: var(--alert-success-text);
+            background-color: var(--alert-success-bg);
+            border-color: var(--alert-success-text);
         }
 
         .input-group input {
@@ -243,8 +267,20 @@ session_start();
 
         <!-- Form Section -->
         <section class="form-section">
-            <form action="handlers/login_handlers.php" method="POST" class="login-form">
+            <!-- IMPORTANT: Corrected the form action attribute -->
+            <form action="../handlers/login_handler.php" method="POST" class="login-form">
                 <h2>Sign In to Your Account</h2>
+                
+                <?php 
+                // Display success message from registration
+                if (!empty($_GET['status']) && $_GET['status'] == 'success') {
+                    echo '<div class="alert alert-success">Registration successful! You can now log in.</div>';
+                }
+                // Display error messages from login handler
+                if (!empty($_GET['error'])) {
+                    echo '<div class="alert alert-danger">' . htmlspecialchars(urldecode($_GET['error'])) . '</div>';
+                }
+                ?>
 
                 <div class="input-group">
                     <input type="email" name="email" placeholder="Email" required>
@@ -263,6 +299,7 @@ session_start();
                 </button>
 
                 <p class="signup-link">
+                    <!-- IMPORTANT: Changed href to your actual register page name -->
                     Don't have an account? <a href="sign-up.php">Sign Up</a>
                 </p>
             </form>

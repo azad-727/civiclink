@@ -1,10 +1,10 @@
 <?php
-
+require_once '../config/db_connect.php';
 // Check if the form was submitted via POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // 1. Sanitize and retrieve form data
-    $username = trim($_POST['username']);
+    $username = trim($_POST['fname']);
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
     $confirm_password = trim($_POST['confirm_password']); 
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($errors)) {
         $sql_check = "SELECT id FROM users WHERE email = ?";
         
-        if ($stmt_check = mysqli_prepare($link, $sql_check)) {
+        if ($stmt_check = mysqli_prepare($conn, $sql_check)) {
             mysqli_stmt_bind_param($stmt_check, "s", $email);
             mysqli_stmt_execute($stmt_check);
             mysqli_stmt_store_result($stmt_check);
@@ -50,16 +50,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         $sql_insert = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
         
-        if ($stmt_insert = mysqli_prepare($link, $sql_insert)) {
+        if ($stmt_insert = mysqli_prepare($conn, $sql_insert)) {
             mysqli_stmt_bind_param($stmt_insert, "sss", $username, $email, $hashed_password);
             
             if (mysqli_stmt_execute($stmt_insert)) {
                 // Registration successful, redirect to login page with a success message
-                header("location: ../login.php?status=success");
+                header("location: ../includes/login.php?status=success");
                 exit();
             } else {
                 // If insertion fails, it's a server error
-                header("location: ../register.php?error=Something went wrong. Please try again later.");
+                header("location: ../includes/sign-up.php?error=Something went wrong. Please try again later.");
                 exit();
             }
             mysqli_stmt_close($stmt_insert);
@@ -68,15 +68,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // If there are validation errors, redirect back to the registration page
         // Encode the errors array to be passed as a URL parameter
         $error_string = urlencode(implode("<br>", $errors));
-        header("location: ../register.php?error=" . $error_string);
+        header("location: ../includes/sign-up.php?error=" . $error_string);
         exit();
     }
 
     // Close the database connection
-    mysqli_close($link);
+    mysqli_close($conn);
 } else {
     // If someone tries to access this file directly, redirect them
-    header("location: ../register.php");
+    header("location: ../sign-up.php");
     exit();
 }
-?>C:\xampp\htdocs\civiclink-api\handlers\register_handlers.php
+?>
