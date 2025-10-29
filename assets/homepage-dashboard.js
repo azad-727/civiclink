@@ -53,11 +53,11 @@ function initializeLiveDashboard(mapElement, listElement) {
     }
 
     const homepageMap = L.map(mapElement, { 
-        zoomControl: false, 
-        scrollWheelZoom: false,
-        dragging: false,
-        touchZoom: false
-    }).setView([20.5937, 78.9629], 4.5);
+        zoomControl: true, 
+        scrollWheelZoom: true,
+        dragging: true,
+        touchZoom: true
+    }).setView([13.3439, 74.7475], 4.5);
 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; CARTO',

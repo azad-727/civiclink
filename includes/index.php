@@ -412,7 +412,7 @@ include 'header2.php';
         
         <div class="dashboard-layout">
             <!-- Map Column -->
-            <div class="live-map-container">
+            <div class="live-map-container" style = "height:100%; width: 100%;">
                 <div class="map-overlay">
                     <h3>Connecting Communities. Building Better Cities.</h3>
                     <a href="includes/explore.php" class="btn-hero btn-primary" style="padding: 12px 25px; font-size: 0.9rem;">Learn More</a>
