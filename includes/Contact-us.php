@@ -9,11 +9,11 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Inter', sans-serif;
+   font-family: "Poppins", sans-serif;
 }
 
 body {
-  background: #f8f9fb;
+  background: #EBEBEB;
   color: #1c1f24;
 }
 
