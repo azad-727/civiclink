@@ -7,7 +7,7 @@
     <title>About Us | CivicLink</title>
     <style>
       body {
-        font-family: "Segoe UI", Arial, sans-serif;
+        font-family: "Poppins", sans-serif;
         margin: 0;
         background: #ebebeb;
         color: #212529;
