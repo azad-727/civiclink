@@ -1,9 +1,12 @@
 <?php 
 session_start();
+// Use your main header file
 include 'header2.php'; 
 ?>
 
+<!-- Internal CSS for the Homepage -->
 <style>
+    /* --- THEME & VARIABLES --- */
     :root {
         --primary-blue: #3B82F6;
         --secondary-blue: #EFF6FF;
@@ -13,12 +16,14 @@ include 'header2.php';
         --light-gray-bg: #F9FAFB;
     }
 
+    /* Override the default container padding from the header for full-width sections */
     .container, .container-fluid {
         padding-left: 0 !important;
         padding-right: 0 !important;
         max-width: 100% !important;
     }
 
+    /* General styling for all sections */
     .section {
         padding: 80px 20px;
         text-align: center;
@@ -446,5 +451,6 @@ include 'header2.php';
 <script src="../assets/homepage-dashboard.js"></script> <!-- New JS file -->
 
 <?php 
+// Use your main footer file
 include 'footer.php'; 
 ?>

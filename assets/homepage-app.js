@@ -1,15 +1,19 @@
 document.addEventListener('DOMContentLoaded', function () {
     
-    // --- INITIALIZE DYNAMIC SECTIONS ---
-    
-    // Check if the Live Dashboard elements exist on the page before running the code
+    // --- LIVE DASHBOARD INITIALIZATION ---
     const homepageMapElement = document.getElementById('homepageMap');
     const activityList = document.getElementById('activity-list');
+    
     if (homepageMapElement && activityList) {
-        initializeLiveDashboard(homepageMapElement, activityList);
+        const homepageMap = L.map('homepageMap', { zoomControl: false, scrollWheelZoom: false }).setView([20.5937, 78.9629], 5);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; CARTO',
+        }).addTo(homepageMap);
+        
+        loadHomepageIssues(homepageMap, activityList);
     }
 
-    // Check if the Top Contributors element exists
+    // --- TOP CONTRIBUTORS INITIALIZATION ---
     const contributorsGrid = document.getElementById('contributors-grid');
     if (contributorsGrid) {
         loadTopContributors(contributorsGrid);
@@ -17,32 +21,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
-
 // --- FUNCTION DEFINITIONS ---
 
-function initializeLiveDashboard(mapElement, listElement) {
-    const homepageMap = L.map(mapElement, { 
-        zoomControl: false, 
-        scrollWheelZoom: false,
-        dragging: false,
-        touchZoom: false
-    }).setView([20.5937, 78.9629], 4.5); // Set a good default view
-
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; CARTO',
-    }).addTo(homepageMap);
-    
-    loadHomepageIssues(homepageMap, listElement);
-}
-
+// Function to get color based on category for map pins
 function getCategoryColor(category) {
     category = (category || '').toLowerCase();
     if (category.includes('road')) return '#3B82F6'; // Blue
     if (category.includes('safety') || category.includes('electric')) return '#F59E0B'; // Amber
     if (category.includes('park') || category.includes('vandalism') || category.includes('waste')) return '#10B981'; // Green
-    return '#6B7280'; // Gray for 'Other'
+    return '#6B7280'; // Gray
 }
 
+// Function to get CSS class for status badges
 function getStatusClass(status) {
     status = (status || 'open').toLowerCase();
     if (status === 'under review') return 'status-review';
@@ -50,17 +40,17 @@ function getStatusClass(status) {
     return 'status-open';
 }
 
+// Fetches and displays the 5 most recent issues
 async function loadHomepageIssues(mapInstance, listElement) {
     try {
-        // IMPORTANT: Ensure this path is correct for your project structure
         const response = await fetch('/civiclink-api/handlers/homepage_handler.php');
-        if (!response.ok) throw new Error('Network response failed for homepage issues');
+        if (!response.ok) throw new Error('Network response failed');
         const issues = await response.json();
 
         listElement.innerHTML = ''; // Clear "Loading..." message
 
         if (issues.length === 0) {
-            listElement.innerHTML = '<p style="padding: 10px;">No recent activity to show.</p>';
+            listElement.innerHTML = '<p>No recent activity.</p>';
             return;
         }
 
@@ -80,37 +70,36 @@ async function loadHomepageIssues(mapInstance, listElement) {
                 </div>`;
             listElement.insertAdjacentHTML('beforeend', cardHtml);
 
-            // Add corresponding pins to the map
+            // Add a pin to the map for this issue
             const dotColor = getCategoryColor(issue.category);
             L.circleMarker([issue.location_lat, issue.location_lng], {
-                radius: 7, fillColor: dotColor, color: '#fff', weight: 2, opacity: 1, fillOpacity: 0.9
+                radius: 7, fillColor: dotColor, color: '#fff', weight: 2, fillOpacity: 0.9
             }).addTo(mapInstance).bindPopup(`<b>${issue.title}</b>`);
         });
 
     } catch (error) {
-        listElement.innerHTML = '<p style="padding: 10px;">Could not load recent activity.</p>';
+        listElement.innerHTML = '<p>Could not load recent activity.</p>';
         console.error("Failed to load homepage issues:", error);
     }
 }
 
+// Fetches and displays the top 5 contributors
 async function loadTopContributors(gridElement) {
     try {
-        // IMPORTANT: Ensure this path is correct
         const response = await fetch('/civiclink-api/handlers/top_contributors_handler.php');
-        if (!response.ok) throw new Error('Network response failed for contributors');
+        if (!response.ok) throw new Error('Network response failed');
         const contributors = await response.json();
 
         gridElement.innerHTML = ''; // Clear "Loading..." message
 
         if (contributors.length === 0) {
-            gridElement.innerHTML = '<p>No contributions have been recorded yet.</p>';
+            gridElement.innerHTML = '<p>No contributions yet. Be the first!</p>';
             return;
         }
 
         contributors.forEach((contributor, index) => {
             const rank = index + 1;
             const firstLetter = contributor.username.charAt(0).toUpperCase();
-
             const cardHtml = `
                 <div class="contributor-card">
                     <div class="contributor-rank">#${rank}</div>

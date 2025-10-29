@@ -32,7 +32,7 @@ mysqli_close($conn);
     .profile-card {
         background-color: #fff;
         border-radius: 16px;
-        width:500px;
+        width:800px;
         padding: 40px;
         box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         border: 1px solid #E5E7EB;
@@ -57,6 +57,11 @@ mysqli_close($conn);
         transition: background-color 0.2s ease;
     }
     .btn-edit-profile:hover { background-color: #2563EB; }
+    @media (max-width: 768px) {
+    .profile-card {
+        width:200px;
+    }
+    }
 </style>
 
 <div class="profile-container">
