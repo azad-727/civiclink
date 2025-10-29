@@ -205,12 +205,13 @@ include 'header2.php';
     top: 20px;
     left: 20px;
     right: 20px; /* Allow it to span the width on mobile */
-    background: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.3);
     padding: 20px;
     border-radius: 12px;
     z-index: 401; /* Must be higher than Leaflet's controls */
     backdrop-filter: blur(5px);
     text-align: center;
+    /* opacity: 70%; */
 }
 .map-overlay h3 {
     font-size: 1.8rem; /* Smaller font for mobile */

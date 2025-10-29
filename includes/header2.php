@@ -21,7 +21,7 @@ $base_path = '/civiclink-api'; // IMPORTANT: Change if your project folder is di
 
       .navbar {
           background-color: #fff; padding: 10px 20px; border-bottom: 1px solid #e7e7e7;
-          box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 9999;
       }
       .nav-container {
           width: 100%; max-width: 1200px; margin: 0 auto; display: flex;
