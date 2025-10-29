@@ -327,7 +327,7 @@ include 'header2.php';
         <div class="hero-cta-buttons">
             <a href="explore.php" class="btn-hero btn-primary">Explore Local Issues</a>
             <?php if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true): ?>
-                <a href="includes/register.php" class="btn-hero btn-secondary">Sign Up Now</a>
+                <a href="login.php" class="btn-hero btn-secondary">Sign in Now</a>
             <?php else: ?>
                 <a href="report.php" class="btn-hero btn-secondary">Report an Issue</a>
             <?php endif; ?>
