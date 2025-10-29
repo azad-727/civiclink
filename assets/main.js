@@ -1,6 +1,7 @@
 // This function will run once the entire HTML document is loaded and ready.
 document.addEventListener('DOMContentLoaded', function() {
     
+    
     // --- MOBILE NAVIGATION TOGGLE ---
     const mobileMenu = document.getElementById('mobile-menu');
     const navLinks = document.getElementById('nav-links');
@@ -36,6 +37,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+const themeToggle = document.getElementById('theme-toggle');
+const currentTheme = localStorage.getItem('theme');
+const html = document.documentElement;
+
+if (currentTheme) {
+    html.classList.add(currentTheme);
+}
+
+themeToggle.addEventListener('click', () => {
+    if (html.classList.contains('dark-mode')) {
+        html.classList.remove('dark-mode');
+        localStorage.setItem('theme', 'light');
+    } else {
+        html.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark');
+    }
+});
     // You can add more site-wide JavaScript here in the future (e.g., for the search bar)
 
 });

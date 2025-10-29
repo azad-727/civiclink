@@ -86,7 +86,17 @@ include 'header2.php';
     .btn-secondary:hover {
         background-color: var(--secondary-blue);
     }
-
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
     /* --- HOW IT WORKS SECTION --- */
     .how-it-works-section {
         background-color: #fff;
@@ -388,17 +398,17 @@ include 'header2.php';
         <p class="section-subtitle">Our process is simple and transparent, designed for quick action and community involvement.</p>
         <div class="steps-grid">
             <div class="step-card">
-                <div class="step-icon">1</div>
+                <div class="step-icon" aria-hidden="true">1</div>
                 <h3>Spot & Report</h3>
                 <p>See a problem? Use our simple form to report it in seconds. Pin the exact location on the map and add a photo for clarity.</p>
             </div>
             <div class="step-card">
-                <div class="step-icon">2</div>
+                <div class="step-icon" aria-hidden="true">2</div>
                 <h3>Community Verified</h3>
                 <p>Other community members can view and verify your report. This helps authorities prioritize the most pressing issues.</p>
             </div>
             <div class="step-card">
-                <div class="step-icon">3</div>
+                <div class="step-icon" aria-hidden="true">3</div>
                 <h3>Track & Resolve</h3>
                 <p>Follow the status of your report from "Open" to "Resolved." Get notified when action is taken and see your community improve.</p>
             </div>
@@ -406,7 +416,7 @@ include 'header2.php';
     </div>
 </div>
 <!-- LIVE ISSUES DASHBOARD SECTION -->
-<div class="section live-dashboard-section">
+<div class="section live-dashboard-section" aria-labelledby="live-dashboard-title">
     <div class="section-content">
         <h2 class="section-title">Live Issues Dashboard</h2>
         <p class="section-subtitle">See what's happening in the community right now. The latest reports are updated in real-time.</p>
@@ -418,12 +428,12 @@ include 'header2.php';
                     <h3>Connecting Communities. Building Better Cities.</h3>
                     <a href="includes/explore.php" class="btn-hero btn-primary" style="padding: 12px 25px; font-size: 0.9rem;">Learn More</a>
                 </div>
-                <div class="map-legend">
+                <div class="map-legend" aria-hidden="true">
                     <div class="legend-item"><span class="legend-dot" style="background-color: #3B82F6;"></span> Roads & Transit</div>
                     <div class="legend-item"><span class="legend-dot" style="background-color: #F59E0B;"></span> Public Safety</div>
                     <div class="legend-item"><span class="legend-dot" style="background-color: #10B981;"></span> Parks & Vandalism</div>
                 </div>
-                <div id="homepageMap"></div>
+                <div id="homepageMap" tabindex="0" aria-label="Live map showing recent issue reports"></div>
             </div>
 
             <!-- Recent Activity Feed Column -->
@@ -431,12 +441,12 @@ include 'header2.php';
                 <div class="feed-header">
                     <h4>Recent Activity</h4>
                     <div class="icon-group">
-                        <a href="#" title="Filter Activity"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg></a>
-                <a href="#" title="Search Activity"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg></a>
+                        <a href="#" aria-label="Filter Activity" title="Filter Activity"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg></a>
+                <a href="#" aria-label="Filter Activity" title="Search Activity"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg></a>
             </div>
                 </div>
                 <!-- This list will be populated by JavaScript -->
-                <div id="activity-list">
+                <div id="activity-list" aria-live="polite" aria-atomic="true">
                     <p>Loading recent activity...</p>
                 </div>
             </div>
@@ -444,13 +454,13 @@ include 'header2.php';
     </div>
 </div>
 <!-- FEATURES SECTION -->
-<div class="section features-section">
+<div class="section features-section" aria-labelledby="features-title">
     <div class="section-content">
-        <h2 class="section-title">Platform Features</h2>
+        <h2 class="section-title" id="features-title">Platform Features</h2>
         <p class="section-subtitle">We provide the tools needed to make a real-world impact.</p>
         <div class="features-grid">
             <div class="feature-item">
-                <div class="feature-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+                <div class="feature-icon" aria-hidden="true"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
                 <div>
                     <h4>Interactive Hotspot Map</h4>
                     <p>Visualize problem areas in your city with a live, color-coded map of all reported issues.</p>

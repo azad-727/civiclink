@@ -45,6 +45,16 @@ $base_path = '/civiclink-api'; // IMPORTANT: Change if your project folder is di
           background-color: #fff; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
           overflow: hidden; min-width: 220px; z-index: 1001; border: 1px solid #e7e7e7;
       }
+        /* Default Light Mode */
+    :root { --bg-color: #F9FAFB; --text-color: #1F2937; /* ...etc */ }
+
+    /* Dark Mode */
+        html.dark-mode { --bg-color: #111827; --text-color: #F9FAFB; /* ...etc */ }
+        html.dark-mode .card { background-color: #1F2937; }
+
+    /* High-Contrast Mode */
+        html.high-contrast-mode { --bg-color: #000; --text-color: #FFF; /* ...etc */ }
+        html.high-contrast-mode a { color: #FFFF00; text-decoration: underline; }
       .profile-dropdown.active { display: block; }
       .dropdown-header { padding: 15px; border-bottom: 1px solid #e7e7e7; background-color: #F9FAFB; }
       .dropdown-header strong { display: block; color: #1F2937; font-size: 1rem; }
@@ -74,10 +84,25 @@ $base_path = '/civiclink-api'; // IMPORTANT: Change if your project folder is di
           .navbar-nav li a:hover { border-bottom: none; background-color: #F9FAFB; width: 100%; display: block; }
           .menu-toggle { display: flex; }
           .navbar-right-icons { gap: 15px; }
+          
       }
+    .skip-link {
+    position: absolute;
+    top: -40px; /* Hide it off-screen */
+    left: 0;
+    background: #3B82F6;
+    color: white;
+    padding: 8px;
+    z-index: 9999;
+    transition: top 0.3s;
+}
+.skip-link:focus {
+    top: 0; /* Show it when it's focused */
+}  
     </style>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to Main Content</a>
   <nav class="navbar">
     <div class="nav-container">
       <a class="navbar-brand" href="<?php echo $base_path; ?>/includes/index.php">
@@ -109,7 +134,12 @@ $base_path = '/civiclink-api'; // IMPORTANT: Change if your project folder is di
         <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true): ?>
             <!-- USER IS LOGGED IN: Show profile icon with dropdown -->
             <a href="#" class="icon-link" id="profile-icon"><i class="fas fa-user-circle" style="font-size: 1.6rem;"></i></a>
-            
+            <!-- In your header, near the profile icon -->
+        <div class="theme-switcher">
+        <button id="theme-toggle" aria-label="Toggle color theme">
+        <i class="fas fa-sun"></i> <!-- or fa-moon -->
+        </button>
+        </div>
             <div class="profile-dropdown" id="profile-dropdown">
                 <div class="dropdown-header">
                     <strong><?php echo htmlspecialchars($_SESSION["username"]); ?></strong>
