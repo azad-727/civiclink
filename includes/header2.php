@@ -1,223 +1,137 @@
-<?php session_start(); ?>
+<?php
+// This header assumes session_start() has been called on the page that includes it.
+$base_path = '/civiclink-api'; // IMPORTANT: Change if your project folder is different.
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Add your site title here -->
     <title>CivicLink</title>
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Link to your main stylesheet if you have one -->
+    <!-- <link rel="stylesheet" href="<?php echo $base_path; ?>/assets/css/style.css"> -->
     
     <style>
-      /* --- CSS STYLES --- */
-      * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-      }
-
-      body {
-          font-family: Helvetica, Arial, sans-serif;
-      }
+      /* --- HEADER CSS STYLES --- */
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font-family: 'Poppins', sans-serif, Helvetica, Arial, sans-serif; }
 
       .navbar {
-          background-color: #fbfbfb;
-          padding: 10px 20px;
-          border-bottom: 1px solid #e7e7e7;
-          box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
-          position: sticky;
-          top: 0;
-          z-index: 1000;
+          background-color: #fff; padding: 10px 20px; border-bottom: 1px solid #e7e7e7;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000;
       }
-
       .nav-container {
-          width: 100%;
-          max-width: 1200px;
-          margin: 0 auto;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
+          width: 100%; max-width: 1200px; margin: 0 auto; display: flex;
+          justify-content: space-between; align-items: center;
       }
+      a { text-decoration: none; color: #3e6ba6; }
+      .navbar-brand { display: flex; align-items: center; }
+      .navbar-brand img { width: 40px; height: 40px; margin-right: 10px; }
+      .brand-text { color: #1F2937; font-size: 1.25rem; font-weight: 600; }
+      .tagline { font-size: 0.65rem; color: #6B7280; display: block; line-height: 1; }
+      .navbar-nav { display: flex; list-style: none; gap: 40px; align-items: center; } /* Centered items vertically */
+      .navbar-nav li a { color: #374151; font-size: 1rem; font-weight: 500; padding-bottom: 5px; border-bottom: 2px solid transparent; transition: all 0.2s ease-in-out; }
+      .navbar-nav li a:hover, .navbar-nav li a.active { color: #3B82F6; border-bottom: 2px solid #3B82F6; }
+      .navbar-right-icons { display: flex; align-items: center; gap: 20px; position: relative; }
+      .navbar-right-icons .icon-link { font-size: 1.2rem; color: #6B7280; transition: color 0.2s ease; }
+      .navbar-right-icons .icon-link:hover { color: #3B82F6; }
 
-      a {
-          text-decoration: none;
-          color: #3e6ba6;
+      /* Profile Dropdown Styling */
+      .profile-dropdown {
+          display: none; position: absolute; top: 50px; right: 0;
+          background-color: #fff; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+          overflow: hidden; min-width: 220px; z-index: 1001; border: 1px solid #e7e7e7;
       }
-
-      .navbar-brand {
-          display: flex;
-          align-items: center;
+      .profile-dropdown.active { display: block; }
+      .dropdown-header { padding: 15px; border-bottom: 1px solid #e7e7e7; background-color: #F9FAFB; }
+      .dropdown-header strong { display: block; color: #1F2937; font-size: 1rem; }
+      .dropdown-header span { font-size: 0.85rem; color: #6B7280; }
+      .profile-dropdown a.dropdown-item {
+          display: flex; align-items: center; gap: 10px; padding: 12px 15px;
+          font-size: 0.95rem; color: #374151;
       }
-
-      .navbar-brand img {
-          width: 40px;
-          height: 40px;
-          margin-right: 10px;
-      }
-
-      .brand-text {
-          color: #3e6ba6;
-          font-size: 1.25rem;
-          font-weight: 520;
-      }
-
-      .tagline {
-          font-size: 0.65rem;
-          color: #3e6ba6;
-          display: block;
-          line-height: 1;
-      }
-
-      .navbar-nav {
-          display: flex;
-          list-style: none;
-          gap: 40px;
-      }
-
-      .navbar-nav li a {
-          font-size: 1.05rem;
-          font-weight: 520;
-          padding-bottom: 5px;
-          transition: border-bottom 0.2s ease-in-out;
-      }
-
-      .navbar-nav li a:hover {
-          border-bottom: 2px solid #0d6efd;
-      }
-
-      .navbar-right-icons {
-          display: flex;
-          align-items: center;
-          gap: 20px;
-      }
-
-      .navbar-right-icons .fas {
-          font-size: 1.2rem;
-          color: #3e6ba6;
-      }
-
-      #search-input {
-          display: none; /* Hidden by default */
-          border: 1px solid #ccc;
-          border-radius: 5px;
-          padding: 5px;
-      }
+      .profile-dropdown a.dropdown-item:hover { background-color: #F3F4F6; }
+      .profile-dropdown a.dropdown-item i { width: 20px; text-align: center; color: #9CA3AF; }
+      .dropdown-divider { height: 1px; background-color: #e7e7e7; margin: 5px 0; }
+      .dropdown-logout { color: #EF4444 !important; }
 
       /* Hamburger Menu Styling */
-      .menu-toggle {
-          display: none; /* Hidden on desktop */
-          flex-direction: column;
-          cursor: pointer;
-      }
+      .menu-toggle { display: none; flex-direction: column; cursor: pointer; }
+      .menu-toggle .bar { height: 3px; width: 25px; background-color: #3e6ba6; margin: 4px 0; transition: 0.4s; }
 
-      .menu-toggle .bar {
-          height: 3px;
-          width: 25px;
-          background-color: #3e6ba6;
-          margin: 4px 0;
-          transition: 0.4s;
-      }
-
-      /* Mobile Responsiveness */
       @media (max-width: 768px) {
           .navbar-nav {
-              display: none; /* Hide nav links */
-              flex-direction: column;
-              position: absolute;
-              top: 60px; /* Position below the navbar */
-              left: 0;
-              width: 100%;
-              background-color: #fbfbfb;
-              box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
-              text-align: center;
-              gap: 0;
+              display: none; flex-direction: column; position: absolute; top: 60px;
+              left: 0; width: 100%; background-color: #fff;
+              box-shadow: 0 4px 10px rgba(0,0,0,0.08); text-align: center; gap: 0;
           }
-
-          .navbar-nav.active {
-              display: flex; /* Show nav links when active */
-          }
-
-          .navbar-nav li {
-              padding: 15px 0;
-              width: 100%;
-          }
-
-          .navbar-nav li a:hover {
-              border-bottom: none;
-              background-color: #ebf0f0;
-              width: 100%;
-              display: block;
-          }
-
-          .menu-toggle {
-              display: flex; /* Show hamburger menu */
-          }
-
-          .nav-container {
-              justify-content: space-between;
-          }
+          .navbar-nav.active { display: flex; }
+          .navbar-nav li { padding: 15px 0; width: 100%; border-bottom: 1px solid #f3f3f3; }
+          .navbar-nav li:last-child { border-bottom: none; }
+          .navbar-nav li a:hover { border-bottom: none; background-color: #F9FAFB; width: 100%; display: block; }
+          .menu-toggle { display: flex; }
+          .navbar-right-icons { gap: 15px; }
       }
     </style>
 </head>
 <body>
   <nav class="navbar">
     <div class="nav-container">
-      <a class="navbar-brand" href="#">
-          <img src="../images/logo_wbg.png" alt="CivicLink Logo">
+      <a class="navbar-brand" href="<?php echo $base_path; ?>/includes/index.php">
+          <img src="<?php echo $base_path; ?>/images/logo_wbg.png" alt="CivicLink Logo">
           <div>
               <span class="brand-text">CivicLink</span>
-              <span class="tagline">Connecting Communities, Solving Issues</span>
+              <span class="tagline">Connecting Communities</span>
           </div>
       </a>
 
-      <!-- Hamburger Menu Icon -->
+      <!-- Hamburger Menu Icon for Mobile -->
       <div class="menu-toggle" id="mobile-menu">
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
       </div>
 
-      <!-- Desktop Navigation Links -->
-      <ul class="navbar-nav">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Discover</a></li>
-          <li><a href="#">Submit</a></li>
+      <!-- Desktop & Mobile Navigation Links -->
+      <ul class="navbar-nav" id="nav-links">
+          <li><a href="<?php echo $base_path; ?>/includes/index.php">Home</a></li>
+          <li><a href="<?php echo $base_path; ?>/includes/explore.php">Discover</a></li>
+          <li><a href="<?php echo $base_path; ?>/includes/report.php">Submit Issue</a></li>
       </ul>
 
       <!-- Right-side Icons -->
       <div class="navbar-right-icons">
-        <a href="#" id="search-icon"><i class="fas fa-search"></i></a>
-        <input type="search" name="search" id="search-input" placeholder="Search...">
-        <a href="#" class="profile-icon-circle"><i class="fas fa-user"></i></a>
+        <!-- <a href="#" class="icon-link" id="search-icon"><i class="fas fa-search"></i></a> -->
+
+        <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true): ?>
+            <!-- USER IS LOGGED IN: Show profile icon with dropdown -->
+            <a href="#" class="icon-link" id="profile-icon"><i class="fas fa-user-circle" style="font-size: 1.6rem;"></i></a>
+            
+            <div class="profile-dropdown" id="profile-dropdown">
+                <div class="dropdown-header">
+                    <strong><?php echo htmlspecialchars($_SESSION["username"]); ?></strong>
+                    <span>Community Member</span>
+                </div>
+                <a href="<?php echo $base_path; ?>/includes/profile.php" class="dropdown-item"><i class="fas fa-user"></i> View Profile</a>
+                <a href="<?php echo $base_path; ?>/includes/edit_profile.php" class="dropdown-item"><i class="fas fa-edit"></i> Edit Profile</a>
+                <a href="<?php echo $base_path; ?>/includes/my_reports.php" class="dropdown-item"><i class="fas fa-flag"></i> My Contributions</a>
+                <div class="dropdown-divider"></div>
+                <a href="<?php echo $base_path; ?>/handlers/logout_handler.php" class="dropdown-item dropdown-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+
+        <?php else: ?>
+            <!-- USER IS A GUEST: Show simple login link -->
+            <a href="<?php echo $base_path; ?>/includes/login.php" class="icon-link"><i class="fas fa-user"></i></a>
+        <?php endif; ?>
       </div>
     </div>
   </nav>
 
-  <script>
-    // --- JAVASCRIPT CODE ---
-    document.addEventListener('DOMContentLoaded', function() {
-        const mobileMenu = document.getElementById('mobile-menu');
-        const navLinks = document.querySelector('.navbar-nav');
-        const searchIcon = document.getElementById('search-icon');
-        const searchInput = document.getElementById('search-input');
-
-        // Toggle mobile navigation
-        mobileMenu.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-
-        // Toggle search bar visibility
-        searchIcon.addEventListener('click', (event) => {
-            event.preventDefault(); // Prevent the link from navigating
-
-            // Toggle the display of the search input
-            if (searchInput.style.display === 'block') {
-                searchInput.style.display = 'none';
-            } else {
-                searchInput.style.display = 'block';
-            }
-        });
-    });
-  </script>
+  <!-- IMPORTANT: Link to the external JavaScript file at the end of the body -->
+  <!-- This line should be in your footer.php file to be included on every page -->
+  <script src="<?php echo $base_path; ?>/assets/main.js"></script>
 </body>
 </html>

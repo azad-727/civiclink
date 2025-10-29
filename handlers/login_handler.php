@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $_SESSION["username"] = $username;                            
                             
                             // Redirect user to a welcome page (e.g., the explore page)
-                            header("location: ../explore.php");
+                            header("location: ../includes/index.php");
                             exit();
                         } else {
                             // Password is not valid

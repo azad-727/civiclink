@@ -4,7 +4,7 @@ session_start();
 
 // If the user is already logged in, redirect them away from the login page
 if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-    header("location: explore.php");
+    header("location: index.php");
     exit;
 }
 ?>

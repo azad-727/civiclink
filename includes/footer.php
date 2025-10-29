@@ -195,7 +195,7 @@
                     <ul class="footer-links">
                         <li><a href="#">Home</a></li>
                         <li><a href="#">Discover Issues</a></li>
-                        <li><a href="#">Submit an Issue</a></li>
+                        <li><a href="report.php">Submit an Issue</a></li>
                         <li><a href="#">How It Works</a></li>
                     </ul>
                 </div>
@@ -237,6 +237,10 @@
         </div>
     </footer>
     <!-- =================== FOOTER END =================== -->
+<?php
+
+?>
+    <script src="<?php echo $base_path; ?>/assets/js/main.js"></script>
 
 </body>
 </html>
