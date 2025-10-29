@@ -204,17 +204,10 @@
                 <div class="footer-column">
                     <h4>About</h4>
                     <ul class="footer-links">
-<<<<<<< HEAD
                         <li><a href="#">About Us</a></li>
                         <li><a href="Contact-us.php">Contact</a></li>
                         <li><a href="#">Careers</a></li>
                         <li><a href="#">FAQs</a></li>
-=======
-                        <li><a href="About-us.php">About Us</a></li>
-                        <li><a href="Contact-us.php">Contact</a></li>
-                        <li><a href="Careers.php">Careers</a></li>
-                        <li><a href="FAQ.php">FAQs</a></li>
->>>>>>> b46c50ba152d888c6afed33171a69bf2745b2e63
                     </ul>
                 </div>
 
