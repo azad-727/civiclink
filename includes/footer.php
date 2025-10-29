@@ -209,10 +209,10 @@
                 <div class="footer-column">
                     <h4>About</h4>
                     <ul class="footer-links">
-                        <li><a href="#">About Us</a></li>
+                        <li><a href="About-us.php">About Us</a></li>
                         <li><a href="Contact-us.php">Contact</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">FAQs</a></li>
+                        <li><a href="Careers.php">Careers</a></li>
+                        <li><a href="FAQ.php">FAQs</a></li>
                     </ul>
                 </div>
 
@@ -220,9 +220,9 @@
                 <div class="footer-column">
                     <h4>Legal</h4>
                     <ul class="footer-links">
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="Privacy-policy.php">Privacy Policy</a></li>
+                        <li><a href="terms.php">Terms of Service</a></li>
+                        <!-- <li><a href="#">Cookie Policy</a></li> -->
                     </ul>
                 </div>
 
