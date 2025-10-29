@@ -124,7 +124,17 @@ include '../includes/header2.php';
     .card-meta { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; font-size: 0.85rem; color: var(--text-color-light); margin-top: 8px; }
     .card-meta-item { display: flex; align-items: center; gap: 5px; }
     .card-meta-item svg { width: 14px; height: 14px; }
-    
+    .card-details-link {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+    text-decoration: none;
+    margin-top: 10px;
+    align-self: flex-start; /* Aligns the link to the left */
+}
+.card-details-link:hover {
+    text-decoration: underline;
+}
     /* --- FLOATING ACTION BUTTON --- */
     .fab { 
         position: fixed; 
@@ -208,5 +218,5 @@ include '../includes/header2.php';
 <!-- JavaScript includes -->
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <!-- Make sure the path to your JS file is correct -->
-<script src="../assets/explore-app.js"></script>
+<script src="/civiclink-api/assets/explore-app.js"></script>
 <?php include '../includes/footer.php'; ?>

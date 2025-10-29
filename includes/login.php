@@ -2,10 +2,9 @@
 // Always start the session at the very beginning of the file
 session_start();
 
-// If the user is already logged in, redirect them away from the login page
-if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-    header("location: index.php");
-    exit;
+if (isset($_SESSION['flash_message'])) {
+    echo '<div class="alert alert-success">' . $_SESSION['flash_message'] . '</div>';
+    unset($_SESSION['flash_message']); // Crucial: remove it after displaying
 }
 ?>
 <!DOCTYPE html>

@@ -205,7 +205,7 @@
                     <h4>About</h4>
                     <ul class="footer-links">
                         <li><a href="#">About Us</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="Contact-us.php">Contact</a></li>
                         <li><a href="#">Careers</a></li>
                         <li><a href="#">FAQs</a></li>
                     </ul>

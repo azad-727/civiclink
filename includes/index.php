@@ -167,100 +167,137 @@ include 'header2.php';
         .hero-cta-buttons { flex-direction: column; }
         .btn-hero { width: 100%; }
     }
-    /* --- LIVE ISSUES DASHBOARD SECTION --- */
+.legend-item { display: flex; align-items: center; margin-bottom: 8px; font-size: 0.9rem; }
+.legend-item:last-child { margin-bottom: 0; }
+.legend-dot { width: 12px; height: 12px; border-radius: 50%; margin-right: 10px; }
+
+.feed-header h4 { font-size: 1.2rem; font-weight: 600; color: var(--text-color-dark); }
+.feed-header .icon-group { display: flex; gap: 15px; color: var(--text-color-light); }
+/* --- NEW & IMPROVED: LIVE ISSUES DASHBOARD SECTION (Mobile-First) --- */
 .live-dashboard-section {
     background-color: #fff;
-    padding: 80px 20px;
+    padding: 60px 20px;
 }
+
+/* MOBILE DEFAULT: A simple, single-column layout */
 .dashboard-layout {
-    display: grid;
-    grid-template-columns: 2fr 1fr; /* 2/3 for map, 1/3 for list */
+    display: flex;
+    flex-direction: column; /* Stack map and list vertically */
     gap: 30px;
-    height: 600px; /* Give the dashboard a fixed height */
-    max-width: 1400px;
-    margin: 0 auto;
-    background-color: var(--light-gray-bg);
-    padding: 20px;
-    border-radius: 20px;
+    max-width: 1200px;
+    margin: 60px auto 0 auto;
 }
+
 .live-map-container {
     position: relative;
     border-radius: 16px;
     overflow: hidden;
+    height: 450px; /* A good height for a mobile map */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
 #homepageMap {
     width: 100%;
     height: 100%;
 }
+
 .map-overlay {
     position: absolute;
-    top: 30px;
-    left: 30px;
-    background: rgba(255,255,255,0.85);
-    padding: 25px 30px;
+    top: 20px;
+    left: 20px;
+    right: 20px; /* Allow it to span the width on mobile */
+    background: rgba(255,255,255,0.9);
+    padding: 20px;
     border-radius: 12px;
-    max-width: 400px;
-    z-index: 1000;
+    z-index: 401; /* Must be higher than Leaflet's controls */
     backdrop-filter: blur(5px);
+    text-align: center;
 }
 .map-overlay h3 {
-    font-size: 2.2rem;
+    font-size: 1.8rem; /* Smaller font for mobile */
     font-weight: 700;
     line-height: 1.3;
     color: var(--text-color-dark);
     margin-bottom: 20px;
 }
+
 .map-legend {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    background: rgba(255,255,255,0.85);
-    padding: 15px;
-    border-radius: 12px;
-    z-index: 1000;
-    backdrop-filter: blur(5px);
+    display: none; /* Hide the detailed legend on mobile to save space */
 }
-.legend-item { display: flex; align-items: center; margin-bottom: 8px; font-size: 0.9rem; }
-.legend-item:last-child { margin-bottom: 0; }
-.legend-dot { width: 12px; height: 12px; border-radius: 50%; margin-right: 10px; }
 
 /* Recent Activity Feed */
 .recent-activity-feed {
-    background-color: #fff;
+    background-color: var(--light-gray-bg);
     border-radius: 16px;
     padding: 20px;
-    display: flex;
-    flex-direction: column;
 }
-.feed-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.feed-header h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-color-dark);
+    text-align: left;
     margin-bottom: 20px;
 }
-.feed-header h4 { font-size: 1.2rem; font-weight: 600; color: var(--text-color-dark); }
-.feed-header .icon-group { display: flex; gap: 15px; color: var(--text-color-light); }
-#activity-list { overflow-y: auto; flex-grow: 1; }
+#activity-list { /* No fixed height, let it grow */ }
+
 .activity-card {
     display: flex; gap: 15px; align-items: center; margin-bottom: 15px;
-    padding: 10px; border-radius: 8px;
-    transition: background-color 0.2s ease;
+    background-color: #fff;
+    padding: 10px; border-radius: 12px;
+    border: 1px solid var(--border-color);
 }
-.activity-card:hover { background-color: var(--light-gray-bg); }
 .activity-card-img { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
 .activity-card-info h5 { font-size: 0.95rem; font-weight: 600; color: var(--text-color-dark); }
 .activity-card-info p { font-size: 0.85rem; color: var(--text-color-light); }
-.activity-card .card-status { margin-left: auto; font-size: 0.7rem; font-weight: 600; padding: 4px 8px; border-radius: 20px; white-space: nowrap; }
+.activity-card .card-status { margin-left: auto; font-size: 0.7rem; font-weight: 600; padding: 4px 8px; border-radius: 20px; }
 
-/* Responsive adjustments for the dashboard */
-@media (max-width: 1200px) {
-    .dashboard-layout { grid-template-columns: 1.5fr 1fr; }
-}
-@media (max-width: 992px) {
-    .dashboard-layout { grid-template-columns: 1fr; height: auto; }
-    .live-map-container { height: 400px; }
-    .map-overlay { padding: 20px; max-width: 300px; }
-    .map-overlay h3 { font-size: 1.8rem; }
+
+/* --- DESKTOP MEDIA QUERY (Applies ONLY when screen is 992px or wider) --- */
+@media (min-width: 992px) {
+    .dashboard-layout {
+        display: grid;
+        grid-template-columns: 2fr 1fr; /* Re-introduce the grid for desktop */
+        height: 600px; /* Set a fixed height for the desktop dashboard */
+        background-color: var(--light-gray-bg);
+        padding: 20px;
+        border-radius: 20px;
+    }
+    
+    .recent-activity-feed {
+        background-color: #fff; /* White background for the list on desktop */
+        height: 100%; /* Fill the grid cell */
+        display: flex;
+        flex-direction: column;
+    }
+
+    #activity-list {
+        overflow-y: auto; /* Make the list scrollable on desktop */
+        flex-grow: 1;
+    }
+
+    .map-overlay {
+        text-align: left;
+        max-width: 400px; /* Reset max width */
+        right: auto; /* Unset right constraint */
+    }
+    
+    .map-overlay h3 {
+        font-size: 2.2rem; /* Larger font for desktop */
+    }
+
+    .map-legend {
+        display: block; /* Show the legend on desktop */
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        background: rgba(255,255,255,0.85);
+        padding: 15px;
+        border-radius: 12px;
+        z-index: 401;
+        backdrop-filter: blur(5px);
+    }
+    .legend-item { display: flex; align-items: center; margin-bottom: 8px; font-size: 0.9rem; }
+    .legend-item:last-child { margin-bottom: 0; }
+    .legend-dot { width: 12px; height: 12px; border-radius: 50%; margin-right: 10px; }
 }
 /* --- TOP CONTRIBUTORS SECTION --- */
 .contributors-section {
@@ -272,6 +309,14 @@ include 'header2.php';
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 30px;
     margin-top: 60px;
+}
+
+.feed-header .icon-group a {
+    color: var(--text-color-light);
+    transition: color 0.2s ease;
+}
+.feed-header .icon-group a:hover {
+    color: var(--primary-blue);
 }
 .contributor-card {
     background-color: var(--light-gray-bg);
@@ -385,10 +430,9 @@ include 'header2.php';
                 <div class="feed-header">
                     <h4>Recent Activity</h4>
                     <div class="icon-group">
-                        <!-- Placeholder icons -->
-                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                    </div>
+                        <a href="#" title="Filter Activity"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg></a>
+                <a href="#" title="Search Activity"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg></a>
+            </div>
                 </div>
                 <!-- This list will be populated by JavaScript -->
                 <div id="activity-list">

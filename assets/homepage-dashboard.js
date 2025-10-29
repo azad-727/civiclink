@@ -1,16 +1,37 @@
 document.addEventListener('DOMContentLoaded', function () {
     
-    // --- INITIALIZE DYNAMIC SECTIONS ---
-    
-    // Check if the Live Dashboard elements exist on the page before running the code
+    // --- 1. ELEMENT SELECTORS ---
+    // Get references to all the dynamic parts of your homepage.
     const homepageMapElement = document.getElementById('homepageMap');
     const activityList = document.getElementById('activity-list');
-    if (homepageMapElement && activityList) {
-        initializeLiveDashboard(homepageMapElement, activityList);
-    }
-
-    // Check if the Top Contributors element exists
     const contributorsGrid = document.getElementById('contributors-grid');
+
+    // --- 2. INTERSECTION OBSERVER FOR THE MAP (THE MAIN FIX) ---
+    
+    // This observer will watch the map container.
+    const mapObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            // isIntersecting is true when the element comes into the viewport.
+            if (entry.isIntersecting) {
+                // The map is now visible on the screen, so it's safe to initialize it.
+                initializeLiveDashboard(homepageMapElement, activityList);
+                
+                // We only need to do this once. Stop watching the element.
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1 // Trigger when 10% of the map is visible.
+    });
+
+    // If the map element exists, tell the observer to start watching it.
+    if (homepageMapElement) {
+        mapObserver.observe(homepageMapElement);
+    }
+    
+    // --- 3. INITIALIZE OTHER DYNAMIC SECTIONS ---
+
+    // The Top Contributors section can load right away, as it doesn't have the same rendering issue.
     if (contributorsGrid) {
         loadTopContributors(contributorsGrid);
     }
@@ -18,31 +39,48 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-// --- FUNCTION DEFINITIONS ---
+// --- 4. FUNCTION DEFINITIONS ---
+// These functions are now called by our initial setup logic.
 
+/**
+ * Initializes the Leaflet map and starts loading the issue data.
+ * This function is ONLY called when the Intersection Observer sees the map.
+ */
 function initializeLiveDashboard(mapElement, listElement) {
+    // Safety check: if the map has already been initialized, do nothing.
+    if (mapElement._leaflet_id) {
+        return;
+    }
+
     const homepageMap = L.map(mapElement, { 
         zoomControl: false, 
         scrollWheelZoom: false,
         dragging: false,
         touchZoom: false
-    }).setView([20.5937, 78.9629], 4.5); // Set a good default view
+    }).setView([20.5937, 78.9629], 4.5);
 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; CARTO',
     }).addTo(homepageMap);
     
+    // Because this function runs only when the container is visible,
+    // a simple invalidateSize call is now extremely effective.
+    setTimeout(() => homepageMap.invalidateSize(), 1);
+
+    // Now that the map is ready, fetch the data.
     loadHomepageIssues(homepageMap, listElement);
 }
 
+// Helper function for map pin colors
 function getCategoryColor(category) {
     category = (category || '').toLowerCase();
-    if (category.includes('road')) return '#3B82F6'; // Blue
-    if (category.includes('safety') || category.includes('electric')) return '#F59E0B'; // Amber
-    if (category.includes('park') || category.includes('vandalism') || category.includes('waste')) return '#10B981'; // Green
-    return '#6B7280'; // Gray for 'Other'
+    if (category.includes('road')) return '#3B82F6';
+    if (category.includes('safety') || category.includes('electric')) return '#F59E0B';
+    if (category.includes('park') || category.includes('vandalism') || category.includes('waste')) return '#10B981';
+    return '#6B7280';
 }
 
+// Helper function for status badge CSS classes
 function getStatusClass(status) {
     status = (status || 'open').toLowerCase();
     if (status === 'under review') return 'status-review';
@@ -50,14 +88,14 @@ function getStatusClass(status) {
     return 'status-open';
 }
 
+// Fetches and displays the 5 most recent issues on the map and in the list
 async function loadHomepageIssues(mapInstance, listElement) {
     try {
-        // IMPORTANT: Ensure this path is correct for your project structure
         const response = await fetch('/civiclink-api/handlers/homepage_handler.php');
         if (!response.ok) throw new Error('Network response failed for homepage issues');
         const issues = await response.json();
 
-        listElement.innerHTML = ''; // Clear "Loading..." message
+        listElement.innerHTML = '';
 
         if (issues.length === 0) {
             listElement.innerHTML = '<p style="padding: 10px;">No recent activity to show.</p>';
@@ -80,10 +118,10 @@ async function loadHomepageIssues(mapInstance, listElement) {
                 </div>`;
             listElement.insertAdjacentHTML('beforeend', cardHtml);
 
-            // Add corresponding pins to the map
+            // Add corresponding pin to the map
             const dotColor = getCategoryColor(issue.category);
             L.circleMarker([issue.location_lat, issue.location_lng], {
-                radius: 7, fillColor: dotColor, color: '#fff', weight: 2, opacity: 1, fillOpacity: 0.9
+                radius: 7, fillColor: dotColor, color: '#fff', weight: 2, fillOpacity: 0.9
             }).addTo(mapInstance).bindPopup(`<b>${issue.title}</b>`);
         });
 
@@ -93,14 +131,14 @@ async function loadHomepageIssues(mapInstance, listElement) {
     }
 }
 
+// Fetches and displays the top 5 contributors
 async function loadTopContributors(gridElement) {
     try {
-        // IMPORTANT: Ensure this path is correct
         const response = await fetch('/civiclink-api/handlers/top_contributors_handler.php');
         if (!response.ok) throw new Error('Network response failed for contributors');
         const contributors = await response.json();
 
-        gridElement.innerHTML = ''; // Clear "Loading..." message
+        gridElement.innerHTML = '';
 
         if (contributors.length === 0) {
             gridElement.innerHTML = '<p>No contributions have been recorded yet.</p>';
@@ -110,7 +148,6 @@ async function loadTopContributors(gridElement) {
         contributors.forEach((contributor, index) => {
             const rank = index + 1;
             const firstLetter = contributor.username.charAt(0).toUpperCase();
-
             const cardHtml = `
                 <div class="contributor-card">
                     <div class="contributor-rank">#${rank}</div>

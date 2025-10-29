@@ -55,7 +55,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             if (mysqli_stmt_execute($stmt_insert)) {
                 // Registration successful, redirect to login page with a success message
-                header("location: ../includes/login.php?status=success");
+               $_SESSION['flash_message'] = "Registration successful! Please log in.";
+                header("location: ../login.php");
                 exit();
             } else {
                 // If insertion fails, it's a server error
